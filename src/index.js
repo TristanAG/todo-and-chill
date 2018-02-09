@@ -21,27 +21,11 @@ class TodoApp extends React.Component {
         <TodoList />
         <AddTodo />
 
+        <ClearTodos />
 
-        {
-          app.todos.length > 0 && <span className="clear-all" onClick={clearTodos}>clear all</span>
-        }
       </div>
     )
   }
-}
-
-const addTodo = (e) => {
-  e.preventDefault()
-  const todo = e.target.elements.todo.value
-  app.todos.push(todo)
-  e.target.elements.todo.value = ''
-  render()
-}
-
-const clearTodos = () => {
-  console.log('hello')
-  app.todos = []
-  render()
 }
 
 const Header = () => (
@@ -71,12 +55,37 @@ const TodoList = () => (
 )
 
 class AddTodo extends React.Component {
+  addTodo(e) {
+    e.preventDefault()
+    const todo = e.target.elements.todo.value
+    app.todos.push(todo)
+    e.target.elements.todo.value = ''
+    render()
+  }
+
   render() {
     return (
-      <form onSubmit={addTodo}>
+      <form onSubmit={this.addTodo}>
         <input type="text" name="todo" />
         <button>+</button>
       </form>
+    )
+  }
+}
+
+class ClearTodos extends React.Component {
+  clearTodos() {
+    app.todos = []
+    render()
+  }
+
+  render() {
+    return(
+      <div>
+        {
+          app.todos.length > 0 && <span className="clear-all" onClick={this.clearTodos}>clear all</span>
+        }
+      </div>
     )
   }
 }
