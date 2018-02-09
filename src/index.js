@@ -14,51 +14,78 @@ const app = {
 
 class TodoApp extends React.Component {
   render() {
+    const title = 'react todo app'
+    const todos = ['eat', 'sleep', 'be merry']
+    const numberOfTodos = todos.length
+
     return (
       <div className="container" style={{marginTop: '15px'}}>
-        <Header />
-        <Prompt />
-        <TodoList />
+        <Header title={title}/>
+        <Prompt numberOfTodos={numberOfTodos}/>
+        <TodoList todos={todos}/>
         <AddTodo />
-        <ClearTodos />
+        <ClearTodos todos={todos}/>
       </div>
     )
   }
 }
 
-const Header = () => (
-  <header>
-    <h5>{app.title}</h5>
-  </header>
-)
+class Header extends React.Component {
+  render() {
+    return (
+      <header>
+        <h5>{this.props.title}</h5>
+      </header>
+    )
+  }
+}
 
-const Prompt = () => (
-  <p>
-    {
-      app.todos.length > 0 ?
-        `you have ${app.todos.length} todos` :
-        'add some todos, won\'t you?'
-    }
-  </p>
-)
+class Prompt extends React.Component {
+  render() {
+    return (
+      <p>
+        {
+          this.props.numberOfTodos > 0 ?
+            `you have ${this.props.numberOfTodos} todos` :
+            'add some todos, won\'t you?'
+        }
+      </p>
+    )
+  }
+}
 
-const TodoList = () => (
-  <ul>
-    {
-      app.todos.map((todo) => {
-        return <li key={todo}>{todo}</li>
-      })
-    }
-  </ul>
-)
+class TodoList extends React.Component {
+  render() {
+    return (
+      <ul>
+        {
+          this.props.todos.map((todo) => <Todo key={todo} todoText={todo}/>)
+        }
+      </ul>
+    )
+  }
+}
+
+class Todo extends React.Component {
+  render(){
+    return (
+      <li>
+        {this.props.todoText}
+      </li>
+    )
+  }
+}
 
 class AddTodo extends React.Component {
   addTodo(e) {
     e.preventDefault()
-    const todo = e.target.elements.todo.value
-    app.todos.push(todo)
-    e.target.elements.todo.value = ''
-    // render()
+    const todo = e.target.elements.todo.value.trim()
+
+    if(todo){
+      app.todos.push(todo)
+      e.target.elements.todo.value = ''
+      render()
+    }
   }
 
   render() {
@@ -72,9 +99,15 @@ class AddTodo extends React.Component {
 }
 
 class ClearTodos extends React.Component {
+  constructor(props){
+    super(props)
+    this.clearTodos = this.clearTodos.bind(this)
+  }
+
   clearTodos() {
-    app.todos = []
-    // render()
+    console.log(this.props.todos)
+    // this.app.todos = []
+    render()
   }
 
   render() {
@@ -88,9 +121,9 @@ class ClearTodos extends React.Component {
   }
 }
 
-// const render = () => {
+const render = () => {
   ReactDOM.render(<TodoApp />, document.getElementById('root'));
-// }
+}
 
-// render()
+render()
 // registerServiceWorker();
