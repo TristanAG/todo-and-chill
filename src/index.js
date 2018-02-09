@@ -20,9 +20,7 @@ class TodoApp extends React.Component {
         <Prompt />
         <TodoList />
         <AddTodo />
-
         <ClearTodos />
-
       </div>
     )
   }
@@ -60,7 +58,7 @@ class AddTodo extends React.Component {
     const todo = e.target.elements.todo.value
     app.todos.push(todo)
     e.target.elements.todo.value = ''
-    render()
+    // render()
   }
 
   render() {
@@ -76,7 +74,7 @@ class AddTodo extends React.Component {
 class ClearTodos extends React.Component {
   clearTodos() {
     app.todos = []
-    render()
+    // render()
   }
 
   render() {
@@ -90,9 +88,9 @@ class ClearTodos extends React.Component {
   }
 }
 
-const render = () => {
+// const render = () => {
   ReactDOM.render(<TodoApp />, document.getElementById('root'));
-}
+// }
 
-render()
+// render()
 // registerServiceWorker();
