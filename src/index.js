@@ -6,53 +6,87 @@ import './css/index.css'
 // import App from './App';
 // import registerServiceWorker from './registerServiceWorker'
 
-const app = {
-  title: 'todo and chill',
-  todos: []
-}
-
-
 class TodoApp extends React.Component {
+  constructor(props){
+    super(props)
+    this.handleClearAll = this.handleClearAll.bind(this)
+    this.handleAddTodo = this.handleAddTodo.bind(this)
+    this.state = {
+      todos: ['buy crystals', 'meditate + yoga', 'transcend reality'],
+      numberOfTodos: 3
+    }
+  }
+
+  handleClearAll() {
+    this.setState(() => {
+      return {
+        todos: [],
+        numberOfTodos: 0
+      }
+    })
+  }
+
+  handleAddTodo(todo) {
+    if (!todo) {
+      return 'You need to actually write something first'
+    } else if (this.state.todos.indexOf(todo) > -1) {
+      return 'You already entered this... ambitions much?'
+    }
+
+    this.setState((prevState) => {
+      return {
+        todos: prevState.todos.concat(todo),
+        numberOfTodos: prevState.todos.length + 1
+      }
+    })
+  }
+
   render() {
     const title = 'react todo app'
-    const todos = ['eat', 'sleep', 'be merry']
-    const numberOfTodos = todos.length
-
     return (
       <div className="container" style={{marginTop: '15px'}}>
         <Header title={title}/>
-        <Prompt numberOfTodos={numberOfTodos}/>
-        <TodoList todos={todos}/>
-        <AddTodo />
-        <ClearTodos todos={todos}/>
+        <Prompt numberOfTodos={this.state.numberOfTodos}/>
+        <TodoList todos={this.state.todos}/>
+        <AddTodo handleAddTodo={this.handleAddTodo}/>
+        <ClearTodos
+          hasTodos={this.state.numberOfTodos > 0}
+          handleClearAll={this.handleClearAll}
+        />
       </div>
     )
   }
 }
 
-class Header extends React.Component {
+const Header = ({ title }) => {
+  return (
+    <header>
+      <h5>{title}</h5>
+    </header>
+  )
+}
+
+
+
+class Prompt extends React.Component {
   render() {
+    let numberOfTodos = this.props.numberOfTodos
+    let prompt = ''
+    if(numberOfTodos === 0){
+      prompt = 'add some todos, won\'t you?'
+    } else if (numberOfTodos === 1){
+      prompt = `you have ${numberOfTodos} todo`
+    } else {
+      prompt =  `you have ${numberOfTodos} todos`
+    }
+
     return (
-      <header>
-        <h5>{this.props.title}</h5>
-      </header>
+      <p>{prompt}</p>
     )
   }
 }
 
-class Prompt extends React.Component {
-  render() {
-    return (
-      <p>
-        {
-          this.props.numberOfTodos > 0 ?
-            `you have ${this.props.numberOfTodos} todos` :
-            'add some todos, won\'t you?'
-        }
-      </p>
-    )
-  }
-}
+
 
 class TodoList extends React.Component {
   render() {
@@ -77,44 +111,45 @@ class Todo extends React.Component {
 }
 
 class AddTodo extends React.Component {
+  constructor(props) {
+    super(props)
+    this.addTodo = this.addTodo.bind(this)
+    this.state = {
+      error: undefined
+    }
+  }
   addTodo(e) {
     e.preventDefault()
     const todo = e.target.elements.todo.value.trim()
+    const error = this.props.handleAddTodo(todo)
+    //if nothing comes back (i.e. an error) that means it worked
+    this.setState(() => {
+      return { error }
+    })
 
-    if(todo){
-      app.todos.push(todo)
-      e.target.elements.todo.value = ''
-      render()
-    }
+    e.target.elements.todo.value = ''
   }
 
   render() {
     return (
-      <form onSubmit={this.addTodo}>
-        <input type="text" name="todo" />
-        <button>+</button>
-      </form>
+      <div>
+        {this.state.error && <p>{this.state.error}</p>}
+        <form onSubmit={this.addTodo}>
+          <input type="text" name="todo" />
+          <button>+</button>
+        </form>
+      </div>
     )
   }
 }
 
 class ClearTodos extends React.Component {
-  constructor(props){
-    super(props)
-    this.clearTodos = this.clearTodos.bind(this)
-  }
-
-  clearTodos() {
-    console.log(this.props.todos)
-    // this.app.todos = []
-    render()
-  }
 
   render() {
     return(
       <div>
         {
-          app.todos.length > 0 && <span className="clear-all" onClick={this.clearTodos}>clear all</span>
+          this.props.hasTodos > 0 && <span className="clear-all" onClick={this.props.handleClearAll}>clear all</span>
         }
       </div>
     )
