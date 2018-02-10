@@ -12,11 +12,10 @@ class TodoApp extends React.Component {
     this.handleClearAll = this.handleClearAll.bind(this)
     this.handleAddTodo = this.handleAddTodo.bind(this)
     this.state = {
-      todos: ['buy crystals', 'meditate + yoga', 'transcend reality'],
+      todos: ['buy crystals', 'meditate + yoga', 'go to 6th dimension'],
       numberOfTodos: 3
     }
   }
-
   handleClearAll() {
     this.setState(() => {
       return {
@@ -25,7 +24,6 @@ class TodoApp extends React.Component {
       }
     })
   }
-
   handleAddTodo(todo) {
     if (!todo) {
       return 'You need to actually write something first'
@@ -67,48 +65,31 @@ const Header = ({ title }) => {
 }
 
 
+const Prompt = ({ numberOfTodos }) => {
+  let prompt = ''
 
-class Prompt extends React.Component {
-  render() {
-    let numberOfTodos = this.props.numberOfTodos
-    let prompt = ''
-    if(numberOfTodos === 0){
-      prompt = 'add some todos, won\'t you?'
-    } else if (numberOfTodos === 1){
-      prompt = `you have ${numberOfTodos} todo`
-    } else {
-      prompt =  `you have ${numberOfTodos} todos`
-    }
-
-    return (
-      <p>{prompt}</p>
-    )
+  if(numberOfTodos === 0){
+    prompt = 'add some todos, won\'t you?'
+  } else if (numberOfTodos === 1){
+    prompt = `you have ${numberOfTodos} todo`
+  } else {
+    prompt =  `you have ${numberOfTodos} todos`
   }
+
+  return (
+    <p>{prompt}</p>
+  )
 }
 
+const TodoList = ({ todos }) => (
+  <ul>
+    {todos.map((todo) => <Todo key={todo} todoText={todo}/>)}
+  </ul>
+)
 
 
-class TodoList extends React.Component {
-  render() {
-    return (
-      <ul>
-        {
-          this.props.todos.map((todo) => <Todo key={todo} todoText={todo}/>)
-        }
-      </ul>
-    )
-  }
-}
+const Todo = ({ todoText }) => <li>{todoText}</li>
 
-class Todo extends React.Component {
-  render(){
-    return (
-      <li>
-        {this.props.todoText}
-      </li>
-    )
-  }
-}
 
 class AddTodo extends React.Component {
   constructor(props) {
@@ -143,22 +124,13 @@ class AddTodo extends React.Component {
   }
 }
 
-class ClearTodos extends React.Component {
-
-  render() {
-    return(
-      <div>
-        {
-          this.props.hasTodos > 0 && <span className="clear-all" onClick={this.props.handleClearAll}>clear all</span>
-        }
-      </div>
-    )
+const ClearTodos = ({ hasTodos, handleClearAll }) => {
+  if(hasTodos) {
+    return <span className="clear-all" onClick={handleClearAll}>clear all</span>
   }
+  return null
 }
 
-const render = () => {
-  ReactDOM.render(<TodoApp />, document.getElementById('root'));
-}
+ReactDOM.render(<TodoApp />, document.getElementById('root'));
 
-render()
 // registerServiceWorker();
