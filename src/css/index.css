@@ -9,6 +9,20 @@ form{
   margin-bottom: 4px;
 }
 
+button{
+  margin-left: 13px;
+  padding-top: 1px;
+  transition: .3s;
+  border: 1px solid #39dd57;
+}
+input[type="text"]{
+  margin-top: 20px;
+  padding-top: -1px;
+}
+input[type="text"]:focus{
+  border: 1px solid #39dd57;
+}
+
 .clear-all{
   border-bottom: 2px solid #39dd57;
   transition: .2s;
@@ -16,4 +30,18 @@ form{
 .clear-all:hover{
   cursor: pointer;
   opacity: .7;
+}
+
+.todo{
+  margin-bottom: 5px;
+}
+
+.delete-todo{
+  padding-left: 13px;
+  color: #39dd57;
+  transition: .2s
+}
+.delete-todo:hover{
+  cursor: pointer;
+  opacity: .2;
 }
