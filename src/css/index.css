@@ -9,6 +9,11 @@ form{
   margin-bottom: 4px;
 }
 
+hr{
+  margin: 0;
+}
+
+
 button{
   margin-left: 13px;
   padding-top: 1px;
@@ -21,6 +26,14 @@ input[type="text"]{
 }
 input[type="text"]:focus{
   border: 1px solid #39dd57;
+}
+
+a{
+  color: #39dd57;
+  transition: .3s;
+}
+a:hover{
+  color: #bbb
 }
 
 .clear-all{

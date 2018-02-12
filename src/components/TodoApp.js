@@ -53,15 +53,23 @@ class TodoApp extends React.Component {
   render() {
     const title = 'react todo app'
     return (
-      <div className="container" style={{marginTop: '15px'}}>
-        <Header title={title}/>
-        <Prompt numberOfTodos={this.state.numberOfTodos}/>
-        <TodoList todos={this.state.todos} handleDeleteTodo={this.handleDeleteTodo}/>
-        <AddTodo handleAddTodo={this.handleAddTodo}/>
-        <ClearTodos
-          hasTodos={this.state.numberOfTodos > 0}
-          handleClearAll={this.handleClearAll}
-        />
+      <div>
+        <div className="container" style={{
+
+        }}>
+          <a href="http://tristangruener.com">tristangruener.com</a>
+        </div>
+        <hr />
+        <div className="container" style={{marginTop: '15px'}}>
+          <Header title={title}/>
+          <Prompt numberOfTodos={this.state.numberOfTodos}/>
+          <TodoList todos={this.state.todos} handleDeleteTodo={this.handleDeleteTodo}/>
+          <AddTodo handleAddTodo={this.handleAddTodo}/>
+          <ClearTodos
+            hasTodos={this.state.numberOfTodos > 0}
+            handleClearAll={this.handleClearAll}
+          />
+        </div>
       </div>
     )
   }
