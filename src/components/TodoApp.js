@@ -54,9 +54,7 @@ class TodoApp extends React.Component {
     const title = 'react todo app'
     return (
       <div>
-        <div className="container" style={{
-
-        }}>
+        <div className="container">
           <a href="http://tristangruener.com">tristangruener.com</a>
         </div>
         <hr />
